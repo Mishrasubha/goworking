@@ -18,14 +18,13 @@
 #  
 
 ## Flask
-import os
 from flask import (
   Flask,
   redirect,
   url_for
 )
 app = Flask(__name__,
-    instance_relative_config=True,
+    instance_relative_config=True
 )
 app.config.from_object('default_config.Config')
 try:
@@ -86,7 +85,7 @@ def index():
 #app.register_blueprint(web_bp, url_prefix="/web")
 ## Go Working
 from blueprints.goworking import bp as goworking_bp
-app.register_blueprint(goworking_bp, url_prefix="\goworking")
+app.register_blueprint(goworking_bp, url_prefix="/goworking")
 
 ## Flask shell
 @app.shell_context_processor
