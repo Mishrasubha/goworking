@@ -18,17 +18,20 @@
 #  
 
 ## Flask
+import os
 from flask import (
   Flask,
   redirect,
-  url_for,
+  url_for
 )
-app = Flask(__name__, instance_relative_config=True)
+app = Flask(__name__,
+    instance_relative_config=True,
+)
 app.config.from_object('default_config.Config')
 try:
-  app.config.from_pyfile(''.join([app.instance_path, '/config.py']))
+  app.config.from_pyfile(''.join([app.instance_path, '/default_config.py']))
 except Exception as e:
-  print(u"Arquivo de configuração não encontrado. Exceção: %s" % (e))
+  print("Configuration file not found. Exception: {}" .format(e))
 
 ## Flask WTF
 from flask_wtf.csrf import CSRFProtect
@@ -51,10 +54,21 @@ migrate = Migrate(app, db, compare_type = True)
 ## TODO não sei se funciona desta forma os logs, provavelmente somente uma destas configurações (a última?) esteja funcionando de fato.
 ## TODO I don't know if the logs work this way, probably only one of these settings (the last one?) Is actually working.
 import logging
-logging.basicConfig(filename='instance/error.log', filemode='w', level=logging.ERROR)
-logging.basicConfig(filename='instance/info.log', filemode='w', level=logging.INFO)
-logging.basicConfig(filename='instance/debug.log', filemode='w', level=logging.DEBUG)
-
+from logging import FileHandler, WARNING
+error_handler = FileHandler('error.log')
+error_handler.setLevel(logging.ERROR)
+debug_handler = FileHandler('debug.log')
+debug_handler.setLevel(logging.DEBUG)
+info_handler = FileHandler('info.log')
+info_handler.setLevel(logging.INFO)
+# create formatter and add it to the handlers
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+error_handler.setFormatter(formatter)
+debug_handler.setFormatter(formatter)
+info_handler.setFormatter(formatter)
+app.logger.addHandler(error_handler)
+app.logger.addHandler(debug_handler)
+app.logger.addHandler(info_handler)
 ## Index
 @app.route("/")
 def index():
@@ -72,7 +86,7 @@ def index():
 #app.register_blueprint(web_bp, url_prefix="/web")
 ## Go Working
 from blueprints.goworking import bp as goworking_bp
-app.register_blueprint(goworking_bp, url_prefix="/goworking")
+app.register_blueprint(goworking_bp, url_prefix="\goworking")
 
 ## Flask shell
 @app.shell_context_processor
