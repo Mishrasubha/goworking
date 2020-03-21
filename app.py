@@ -49,6 +49,7 @@ migrate = Migrate(app, db, compare_type = True)
 
 ## Log
 ## TODO não sei se funciona desta forma os logs, provavelmente somente uma destas configurações (a última?) esteja funcionando de fato.
+## TODO I don't know if the logs work this way, probably only one of these settings (the last one?) Is actually working.
 import logging
 logging.basicConfig(filename='instance/error.log', filemode='w', level=logging.ERROR)
 logging.basicConfig(filename='instance/info.log', filemode='w', level=logging.INFO)
@@ -61,12 +62,12 @@ def index():
 
 ## Blueprints
 ## API
-## TODO APi deve ser utilizada programaticamente como API propriamente dita,
-## aida há trabalho a ser feito para se tornar uma API de fato.
+## TODO APi deve ser utilizada programaticamente como API propriamente dita,/TODO-APi must be used programmatically as an API itself
+## aida há trabalho a ser feito para se tornar uma API de fato./Eng-there is still work to be done to become a de facto API.
 #from blueprints.api import bp as api_bp
 #app.register_blueprint(api_bp, url_prefix="/api")
 ## Web
-## TODO blueprint criado para centralizar os arquivos de /static
+## TODO blueprint criado para centralizar os arquivos de /static./Eng-blueprint created to centralize / static files
 #from blueprints.web import bp as web_bp
 #app.register_blueprint(web_bp, url_prefix="/web")
 ## Go Working
